@@ -1,0 +1,61 @@
+name: CI Lint & Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-build:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # -----------------
+      # Backend Lint & Build
+      # -----------------
+      - name: Setup Node for Backend
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install Backend Dependencies
+        working-directory: ./server
+        run: npm install
+
+      - name: Lint Backend
+        working-directory: ./server
+        run: npm run lint || true
+
+      - name: Build Backend Docker Image
+        run: docker build -t backend ./server
+
+      # -----------------
+      # Frontend Lint & Build
+      # -----------------
+      - name: Setup Node for Frontend
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install Frontend Dependencies
+        working-directory: ./client
+        run: npm install
+
+      - name: Lint Frontend
+        working-directory: ./client
+        run: npm run lint || true
+
+      - name: Build Frontend Docker Image
+        run: docker build -t frontend ./client

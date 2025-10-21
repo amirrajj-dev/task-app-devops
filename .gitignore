@@ -8,7 +8,9 @@ dist/
 build/
 
 # Environment
-.env
+*.env
+*.env.prod
+*.env.dev
 client/.env
 server/.env
 

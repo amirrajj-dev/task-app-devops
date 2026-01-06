@@ -1,2 +1,28 @@
-.env*
-node_modules
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log
+
+# Vite / build
+dist/
+build/
+
+# Environment
+*.env
+*.env.prod
+*.env.dev
+client/.env
+server/.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-workspace
